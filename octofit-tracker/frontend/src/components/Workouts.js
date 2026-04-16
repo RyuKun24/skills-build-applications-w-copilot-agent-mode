@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);
-  const apiUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`;
+  const apiBaseUrl = process.env.REACT_APP_CODESPACE_NAME
+    ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
+    : 'http://localhost:8000';
+  const apiUrl = `${apiBaseUrl}/api/workouts/`;
 
   useEffect(() => {
     console.log('Workouts: fetching from', apiUrl);
@@ -27,7 +30,7 @@ function Workouts() {
         </thead>
         <tbody>
           {workouts.map((workout, idx) => (
-            <tr key={workout._id || idx}>
+            <tr key={workout.id || idx}>
               <td>{workout.name}</td>
               <td>{workout.description}</td>
             </tr>

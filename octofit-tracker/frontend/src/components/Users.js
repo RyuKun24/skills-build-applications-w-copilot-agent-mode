@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 function Users() {
   const [users, setUsers] = useState([]);
-  const apiUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`;
+  const apiBaseUrl = process.env.REACT_APP_CODESPACE_NAME
+    ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
+    : 'http://localhost:8000';
+  const apiUrl = `${apiBaseUrl}/api/users/`;
 
   useEffect(() => {
     console.log('Users: fetching from', apiUrl);
@@ -27,7 +30,7 @@ function Users() {
         </thead>
         <tbody>
           {users.map((user, idx) => (
-            <tr key={user._id || idx}>
+            <tr key={user.id || idx}>
               <td>{user.username}</td>
               <td>{user.email}</td>
             </tr>

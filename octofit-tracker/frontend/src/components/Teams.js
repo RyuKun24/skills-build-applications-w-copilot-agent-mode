@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 function Teams() {
   const [teams, setTeams] = useState([]);
-  const apiUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/teams/`;
+  const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+  const apiUrl = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+    : 'http://localhost:8000/api/teams/';
 
   useEffect(() => {
     console.log('Teams: fetching from', apiUrl);
@@ -22,14 +25,12 @@ function Teams() {
         <thead>
           <tr>
             <th>Team Name</th>
-            <th>Members</th>
           </tr>
         </thead>
         <tbody>
           {teams.map((team, idx) => (
-            <tr key={team._id || idx}>
+            <tr key={team.id || idx}>
               <td>{team.name}</td>
-              <td>{Array.isArray(team.members) ? team.members.join(', ') : team.members}</td>
             </tr>
           ))}
         </tbody>

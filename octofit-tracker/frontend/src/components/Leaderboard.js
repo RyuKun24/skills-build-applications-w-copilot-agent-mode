@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 function Leaderboard() {
   const [entries, setEntries] = useState([]);
-  const apiUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/`;
+  const codespaceName = process.env.REACT_APP_CODESPACE_NAME;
+  const apiBaseUrl = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
+  const apiUrl = `${apiBaseUrl}/api/leaderboard/`;
 
   useEffect(() => {
     console.log('Leaderboard: fetching from', apiUrl);
@@ -23,15 +27,15 @@ function Leaderboard() {
           <tr>
             <th>Rank</th>
             <th>User</th>
-            <th>Score</th>
+            <th>Points</th>
           </tr>
         </thead>
         <tbody>
           {entries.map((entry, idx) => (
-            <tr key={entry._id || idx}>
+            <tr key={entry.id || idx}>
               <td>{idx + 1}</td>
               <td>{entry.user}</td>
-              <td>{entry.score}</td>
+              <td>{entry.points}</td>
             </tr>
           ))}
         </tbody>
